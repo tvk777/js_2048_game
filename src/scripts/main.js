@@ -1,4 +1,5 @@
 'use strict';
+/* eslint no-console: ["error", { allow: ["warn", "log"] }] */
 
 const Game = require('../modules/Game.class');
 const game = new Game();
@@ -19,6 +20,12 @@ startButton.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+  const currentStatus = game.getStatus();
+
+  if (currentStatus !== 'playing') {
+    return;
+  }
+
   switch (e.key) {
     case 'ArrowLeft':
       game.moveLeft();

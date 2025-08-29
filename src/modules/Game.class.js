@@ -30,25 +30,41 @@ class Game {
   }
 
   moveLeft() {
-    this.slideLeft();
+    const changed = this.slideLeft();
+
+    if (!changed) {
+      return;
+    }
     this.addRandomNumber();
     this.renderCells();
   }
 
   moveRight() {
-    this.slideRight();
+    const changed = this.slideRight();
+
+    if (!changed) {
+      return;
+    }
     this.addRandomNumber();
     this.renderCells();
   }
 
   moveUp() {
-    this.slideUp();
+    const changed = this.slideUp();
+
+    if (!changed) {
+      return;
+    }
     this.addRandomNumber();
     this.renderCells();
   }
 
   moveDown() {
-    this.slideDown();
+    const changed = this.slideDown();
+
+    if (!changed) {
+      return;
+    }
     this.addRandomNumber();
     this.renderCells();
   }
@@ -176,26 +192,36 @@ class Game {
   }
 
   slideLeft() {
+    const prevBoard = this.board.map((row) => [...row]);
+
     for (let r = 0; r < this.size; r++) {
       const row = this.slide(this.board[r]);
 
       this.board[r] = row;
     }
 
-    return this.board;
+    const changed = JSON.stringify(prevBoard) !== JSON.stringify(this.board);
+
+    return changed;
   }
 
   slideRight() {
+    const prevBoard = this.board.map((row) => [...row]);
+
     for (let r = 0; r < this.size; r++) {
       const row = this.slide(this.board[r].reverse());
 
       this.board[r] = row.reverse();
     }
 
-    return this.board;
+    const changed = JSON.stringify(prevBoard) !== JSON.stringify(this.board);
+
+    return changed;
   }
 
   slideUp() {
+    const prevBoard = this.board.map((row) => [...row]);
+
     for (let c = 0; c < this.size; c++) {
       const row = [];
 
@@ -209,9 +235,15 @@ class Game {
         this.board[r][c] = newRow[r];
       }
     }
+
+    const changed = JSON.stringify(prevBoard) !== JSON.stringify(this.board);
+
+    return changed;
   }
 
   slideDown() {
+    const prevBoard = this.board.map((row) => [...row]);
+
     for (let c = 0; c < this.size; c++) {
       const row = [];
 
@@ -225,6 +257,10 @@ class Game {
         this.board[r][c] = newRow[r];
       }
     }
+
+    const changed = JSON.stringify(prevBoard) !== JSON.stringify(this.board);
+
+    return changed;
   }
 
   updateScore(add = 0) {
